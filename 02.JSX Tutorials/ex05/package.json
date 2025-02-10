@@ -1,8 +1,8 @@
 {
   "name": "ex05",
   "version": "1.0.0",
-  "description": "",
-  "main": "",
+  "description": "1. 클래스 컴포넌트 만들어 보기",
+  "main": "index.js",
   "scripts": {
     "start": "npx webpack serve --config config/webpack.config.js --progress --mode development",
     "build": "npm i && npx webpack --config config/webpack.config.js --mode production"
