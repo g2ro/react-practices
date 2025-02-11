@@ -1,0 +1,9 @@
+//
+// App.scss
+//
+
+@use 'variables' as *;
+
+:global(#App) {
+  color: #111;
+}
