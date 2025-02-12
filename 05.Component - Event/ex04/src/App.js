@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import logo from './assets/images/react-logo.png';
 
 export default function App() {
-  const imgRef = useRef(null);
+  const imgRef = useRef(10);
 
   const onKeyDownInput = (e) => {
     console.log('keydown:' + e.target.value);
