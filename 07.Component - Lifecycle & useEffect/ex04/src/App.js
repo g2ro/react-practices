@@ -16,13 +16,15 @@ export default function App() {
   const [ticks, setTicks] = useState(0);
 
   useEffect(() => {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       setCurrentTime(getCurrentTime);
-      setTicks((prevTicks) => prevTicks + 0.5);
+      setTicks((ticks) => ticks + 1);
     }, 1000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
-  return ticks % 10 === 1 ? null : (
+  return ticks % 10 === 0 ? null : (
     <Clock
       title={`ex04: Clock Component II: ${ticks}`}
       hours={currentTime.hours}
