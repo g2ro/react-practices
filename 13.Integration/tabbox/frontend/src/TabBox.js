@@ -15,21 +15,13 @@ function TabBox(props) {
   return (
     <div className={Tab_Box}>
       <Tabs
-        tabs={data.map((e, index) => {
-          // const n = Object.assign({}, e);
-          // const n = {
-          //   no : e.no,
-          //   name: e.name,
-          //   etc,,,
-          // } => assign의 기능 -> 새로운 객체이지만, 내부 요소는 그대로
-          // const {...rest } = e; // Object.assign과 같은 기능
-          const { contents, ...rest } = e; // contents와 rest로 e 객체를 분할 한다.
-          if (index === activeIndex) {
-            rest.active = true;
-          }
+        selectTab={selectTab}
+        tabs={data.map((e, i) => {
+          const { contents, ...rest } = e;
+
+          rest.active = i === activeIndex;
           return rest;
         })}
-        selectTab={selectTab}
       />
       <TabView contents={data[activeIndex].contents} />
     </div>
