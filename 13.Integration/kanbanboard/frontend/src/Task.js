@@ -1,10 +1,10 @@
 import React from 'react';
 import { _Task, Task_Remove } from './assets/scss/Task.scss';
-function Task(props) {
+function Task({ Task }) {
   return (
     <li className={_Task}>
       <input type="checkbox" />
-      개별 화면 목업
+      {Task.name}
       <a href="#" className={Task_Remove}></a>
     </li>
   );

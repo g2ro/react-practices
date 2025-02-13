@@ -1,11 +1,14 @@
 import React from 'react';
 import { _Card, Card_Title, Card_Title_Open } from './assets/scss/Card.scss';
 import TaskList from './TaskList';
-function Card(props) {
+function Card({ data }) {
   return (
     <div className={_Card}>
-      <div className={`${Card_Title} ${Card_Title_Open}`}>Stroy Board 작성</div>
-      <TaskList />
+      <div className={`${Card_Title} ${Card_Title_Open}`}>{data.title}</div>
+      <div className="Card_Details">
+        {data.description}
+        <TaskList tasks={data.tasks} />
+      </div>
     </div>
   );
 }

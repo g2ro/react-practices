@@ -1,17 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Task_List, Input_Add_Task } from './assets/scss/Task_List.scss';
 import Task from './Task';
-function TaskList(props) {
-  const styledUl = styled.ul`
-    list-style-type: none;
-  `;
-
+function TaskList({ tasks }) {
   return (
     <div className={Task_List}>
-      <styledUl>
-        <Task />
-      </styledUl>
+      <ul>
+        {tasks
+          ? tasks.map((e) => {
+              return <Task key={e.no} Task={e} />;
+            })
+          : null}
+      </ul>
+
       <input
         className={Input_Add_Task}
         type="text"
