@@ -24,7 +24,7 @@ function App() {
 // Error: Adjacent JSX elements must be wrapped in an enclosing tag
 //
 // function App() {
-//     return ( 
+//     return (    
 //         <h2>Ex02</h2>
 //         <p>특징 II: Sigle Root</p>
 //     )
