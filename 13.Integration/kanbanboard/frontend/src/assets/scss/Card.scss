@@ -14,6 +14,7 @@
 .Card_Title {
   font-weight: bold;
   border-bottom: solid 5px transparent;
+  cursor: pointer;
   &:before {
     display: inline-block;
     width: 1em;
