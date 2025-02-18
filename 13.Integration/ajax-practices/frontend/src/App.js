@@ -64,7 +64,7 @@ function App() {
                 {
                     items?.map((item, index) => <Item key={item.id}>
                         <h4>
-                            <b title={'[R]ead (get)'}>{item.name}</b>
+                            <b title={'[R]ead (get)'} onClick={() => setModalOpen(!modalOpen)}>{item.name}</b>
                             <button>{'[D]elete (delete)'}</button>
                         </h4>
                         <div>
