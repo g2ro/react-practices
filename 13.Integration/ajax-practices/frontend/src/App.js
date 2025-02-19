@@ -25,9 +25,39 @@ function App() {
 
   const [modalData, setModalData] = useState({
     modalOpen: false,
+    itemId: 0,
     itemType: '',
     itemName: '',
   });
+  const addItemWithImage = async (item) => {
+    try {
+      // const formData = new FormData();
+      // formData.append("name", item.name);
+      // formData.append("type", item.type);
+      // formData.append("file", item.file);
+
+      const formData = Object.keys(item).reduce((formData, key) => {
+        formData.append(key, item[key]);
+        return formData;
+      }, new FormData()); // 요소들이 여러개 존재할 때 다음 같은 방법으로 진행하는 것이 더 좋을 거 같음
+
+      const result = await axios.post('/item', formData, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      const jsonResult = result.data;
+      setItems([jsonResult.data, ...items]);
+    } catch (err) {
+      console.error(
+        err.response
+          ? `${err.response.status} ${err.response.data.message}`
+          : err,
+      );
+    }
+  };
   const addItem = async (item) => {
     try {
       const response = await fetch('/item', {
@@ -84,6 +114,7 @@ function App() {
       setModalData(
         update(modalData, {
           open: { $set: true },
+          itemId: { $set: jsonResult.data.id },
           itemType: { $set: jsonResult.data.type },
           itemName: { $set: jsonResult.data.name },
         }),
@@ -96,6 +127,45 @@ function App() {
       );
     }
   };
+
+  const updateItem = async (id, item) => {
+    console.log(id, item);
+    try {
+      const response = await axios.put(
+        `/item/${id}`,
+        new URLSearchParams(item).toString(),
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        },
+      );
+      const jsonResult = response.data;
+      const index = items.findIndex((item) => item.id === jsonResult.data.id);
+
+      setItems([
+        ...items.slice(0, index),
+        jsonResult.data,
+        ...items.slice(index + 1),
+      ]);
+      setModalData(
+        update(modalData, {
+          open: { $set: false },
+          itemId: { $set: 0 },
+          itemType: { $set: '' },
+          itemName: { $set: '' },
+        }),
+      );
+    } catch (err) {
+      console.error(
+        err.response
+          ? `${err.response.status} ${err.response.data.message}`
+          : err,
+      );
+    }
+  };
+
   const deleteItem = async (id) => {
     try {
       const response = await axios.delete(`/item/${id}`);
@@ -168,7 +238,25 @@ function App() {
           <input type={'text'} name={'name'} placeholder={'name'} />
           <input type={'submit'} value={'[C]reate (post)'} />
         </form>
-        <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+
+            Array.from(e.target, (el) => {
+              if (el.name !== '' && el.value === '') {
+                throw new Error(`validation ${el.name} is empty`);
+              }
+
+              return null;
+            });
+
+            const item = serialize(e.target, { hash: true });
+            item['file'] = e.target['file'].files[0];
+
+            addItemWithImage(item);
+            console.log(item);
+          }}
+        >
           <select name={'type'}>
             <option>BOOK</option>
             <option>CLOTHE</option>
@@ -208,7 +296,13 @@ function App() {
                 <b>{index + 1}</b>
                 <i>{item.type}</i>
               </span>
-              <img src={item.image || '/assets/images/no-image.png'} />
+              <ins
+                style={{
+                  backgroundImage: `url(${
+                    item.image || '/assets/images/no-image.png'
+                  })`,
+                }}
+              />
             </div>
           </Item>
         ))}
@@ -225,8 +319,11 @@ function App() {
       >
         <h3>Update Item</h3>
         <form
-          onChange={(e) => {
-            console.log('tomorrow');
+          onSubmit={(e) => {
+            e.preventDefault();
+
+            const item = serialize(e.target, { hash: true });
+            updateItem(modalData.itemId, item);
           }}
         >
           <label>TYPE</label>{' '}

@@ -13,7 +13,7 @@ spring:
       static-path-pattern: /assets/**
    web:
       resources:
-         static-locations: classpath:/assets/
+         static-locations: [classpath:/assets/, file:/Users/kilho/ajax-practices-uploads/]
    thymeleaf:      
       check-template-location: true
       enable-spring-el-compiler: true	  
@@ -21,6 +21,12 @@ spring:
       prefix: classpath:templates/      	  
       suffix : .html
 
+   servlet:
+      multipart:
+         enabled: true
+         max-file-size: 10485760
+         max-request-size: 10485760
+         file-size-threshold: 5242880
 server:
    error:
       whitelabel:

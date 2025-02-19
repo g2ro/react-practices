@@ -113,12 +113,16 @@ html {
                 }
               }
 
-              img {
+              ins {
                 display: block;
                 margin-top: 5px;
-
                 height: 50px;
                 width: 50px;
+                background-color: #e0e0e0;
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+                border: 1px solid rgba(0, 0, 0, 0.3);
               }
             }
           }
