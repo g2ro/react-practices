@@ -1,18 +1,12 @@
-import Header from '../layout/Header';
-import Navigation from '../layout/Navigation';
-import Footer from '../layout/Footer';
 import React from 'react';
 import * as styles from '../assets/scss/component/Guestbook.scss';
 
 export default function Guestbook() {
   return (
     <>
-      <Header />
       <div className={styles.Guestbook}>
         <h2>Guestbook</h2>
       </div>
-      <Navigation />
-      <Footer />
     </>
   );
 }
