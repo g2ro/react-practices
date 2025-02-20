@@ -6,7 +6,7 @@ function TaskList({ cardNo }) {
   const resetTask = useRef(null);
   const [tasks, setTasks] = useState([]);
 
-  const fetchTasks = async (cardNo) => {
+  const fetchTasks = async () => {
     const response = await axios.get(`kanbanboard/task`, {
       method: 'get',
       params: { cardNo },
@@ -34,8 +34,21 @@ function TaskList({ cardNo }) {
     }
   };
 
+  const deleteTask = async (no) => {
+    try {
+      const response = await axios.delete(`/kanbanboard/task/${no}`, {
+        method: 'delete',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      await fetchTasks();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
-    fetchTasks(cardNo);
+    fetchTasks();
   }, []);
 
   return (
@@ -43,7 +56,7 @@ function TaskList({ cardNo }) {
       <ul>
         {tasks
           ? tasks.map((e) => {
-              return <Task key={e.no} Task={e} />;
+              return <Task key={e.no} Task={e} onDelete={deleteTask} />;
             })
           : null}
       </ul>
@@ -54,7 +67,7 @@ function TaskList({ cardNo }) {
         placeholder="태스크 추가"
         ref={resetTask}
         onKeyUp={(e) => {
-          if (e.key === 'Enter') {
+          if (e.key === 'Enter' && e.target.value !== '') {
             const task = {
               name: e.target.value,
               done: 'N',

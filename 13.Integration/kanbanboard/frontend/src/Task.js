@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { _Task, Task_Remove } from './assets/scss/Task.scss';
 import axios from 'axios';
 
-function Task({ Task }) {
+function Task({ Task, onDelete }) {
   const [isChecked, setIsChecked] = useState(Task.done == 'Y' ? true : false);
 
   useEffect(() => {
@@ -34,7 +34,13 @@ function Task({ Task }) {
         }}
       />
       {Task.name}
-      <a href="#" className={Task_Remove}></a>
+      <a
+        href="#"
+        className={Task_Remove}
+        onClick={() => {
+          onDelete(Task.no);
+        }}
+      ></a>
     </li>
   );
 }
