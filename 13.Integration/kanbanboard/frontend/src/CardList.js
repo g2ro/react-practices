@@ -7,7 +7,7 @@ function CardList(props) {
 
   const fetchCards = async () => {
     try {
-      const response = await axios.get('/kanbanboard/card', {
+      const response = await axios.get(`/kanbanboard/card`, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
